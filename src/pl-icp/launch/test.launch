@@ -1,0 +1,23 @@
+<launch>
+
+    <!-- bag的地址与名称 -->
+    <arg name="bag_filename" default="/media/dong/CEC02E6AC02E594B/SLAM数据集/LX/lesson1.bag"/>
+
+    <!-- 使用bag的时间戳 -->
+    <param name="use_sim_time" value="true" />
+
+    <!-- base_link to front_laser_link -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="link_broadcaster" 
+        args="0 0 0.254 0 0 3.1415926 base_link front_laser_link" />
+
+    <!-- 启动 plicp_odometry 节点 -->
+    <node name="pl_icp_node" pkg="pl_icp" type="pl_icp_node" output="screen"/>
+
+    <!-- <node name="rviz" pkg="rviz" type="rviz" required="true"
+    args="-d /home/dong/xd_project/lidar_odometry/src/pl-icp/launch/test.rviz" /> -->
+
+    <!-- play bagfile -->
+    <node name="playbag" pkg="rosbag" type="play" required="true"
+        args="--clock $(arg bag_filename)" />
+
+</launch>
